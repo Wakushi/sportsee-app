@@ -4,6 +4,10 @@ import {
   SESSION_AVERAGE_ENDPOINT,
   USER_BASE_ENDPOINT,
 } from "../constants"
+import { Activity } from "../types/activity"
+import { Performance } from "../types/performance"
+import { SessionAverage } from "../types/session-average"
+import { AggregatedUserInfo, User } from "../types/user"
 
 export default class UserService {
   static async getUserById(userId: string) {
@@ -77,7 +81,7 @@ export default class UserService {
       )
       if (!response.ok) {
         if (response.status === 404) {
-          throw new Error("User performancde not found (404)")
+          throw new Error("User performance not found (404)")
         } else if (response.status === 500) {
           throw new Error("Internal Server Error (500)")
         } else {
@@ -90,5 +94,23 @@ export default class UserService {
       console.error("Error fetching user performance:", error)
       throw error
     }
+  }
+
+  static async getAggregatedUserInfo(
+    userId: string
+  ): Promise<AggregatedUserInfo> {
+    return Promise.all([
+      UserService.getUserById(userId),
+      UserService.getUserActivity(userId),
+      UserService.getUserSessionAverage(userId),
+      UserService.getUserPerformance(userId),
+    ]).then((values) => {
+      return {
+        user: values[0],
+        activity: values[1],
+        sessionAverage: values[2],
+        performance: values[3],
+      }
+    })
   }
 }

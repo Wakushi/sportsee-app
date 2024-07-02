@@ -1,40 +1,27 @@
 import { useEffect, useState } from "react"
+import { AggregatedUserInfo } from "../types/user"
+import { MOCK_USER_ID } from "../constants"
 import UserService from "../services/user-service"
-import { User } from "../types/user"
-import { Activity } from "../types/activity"
-import { SessionAverage } from "../types/session-average"
-
-const MOCK_USER_ID = "18"
+import KeyDataCardList from "../components/KeyDataCardList"
+import ActivityBarChart from "../components/BarChart"
 
 export default function HomePage() {
-  const [user, setUser] = useState<User>()
+  const [aggregatedUserInfo, setAggregatedUserInfo] =
+    useState<AggregatedUserInfo>()
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<string>("")
 
   useEffect(() => {
-    UserService.getUserById(MOCK_USER_ID)
-      .then((user: User) => {
-        setUser(user)
-        setLoading(false)
+    UserService.getAggregatedUserInfo(MOCK_USER_ID)
+      .then((aggregatedData: AggregatedUserInfo) => {
+        setAggregatedUserInfo(aggregatedData)
       })
       .catch((error: Error) => {
         setError(error.message)
+      })
+      .finally(() => {
         setLoading(false)
       })
-
-    UserService.getUserActivity(MOCK_USER_ID).then((activity: Activity) => {
-      console.log("User activity:", activity)
-    })
-
-    UserService.getUserSessionAverage(MOCK_USER_ID).then(
-      (average: SessionAverage) => {
-        console.log("User average:", average)
-      }
-    )
-
-    UserService.getUserPerformance(MOCK_USER_ID).then((performance) => {
-      console.log("User performance:", performance)
-    })
   }, [])
 
   if (loading) {
@@ -45,7 +32,7 @@ export default function HomePage() {
     )
   }
 
-  if (error || !user) {
+  if (error || !aggregatedUserInfo) {
     return (
       <div className="flex justify-center items-center w-full">
         <span className="text-2xl text-center text-red-500">{error}</span>
@@ -53,10 +40,22 @@ export default function HomePage() {
     )
   }
 
+  const { user, activity, sessionAverage, performance } = aggregatedUserInfo
+
   return (
-    <div className="px-[6.70rem] py-[4.25rem]">
+    <div className="flex flex-col w-full justify-between px-[6.70rem] py-[4.25rem]">
       <WelcomeHeader username={user.userInfos.firstName} />
-      <section></section>
+      <div className="w-full flex justify-between gap-8">
+        <div className="flex flex-col gap-8">
+          <section className="bg-light rounded">
+            <ActivityBarChart sessions={activity.sessions} />
+          </section>
+          <section className="bg-light rounded">
+            <ActivityBarChart sessions={activity.sessions} />
+          </section>
+        </div>
+        <KeyDataCardList keyData={user.keyData} />
+      </div>
     </div>
   )
 }
