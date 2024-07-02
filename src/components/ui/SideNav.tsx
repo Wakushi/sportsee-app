@@ -2,7 +2,7 @@ import NavIcon from "./NavIcon"
 
 export default function SideNav() {
   return (
-    <nav className="relative bg-black min-h-full p-[1.625rem] flex items-center">
+    <nav className="relative bg-black min-h-full p-[1.625rem] flex items-center min-w-[101px]">
       <ul className="flex flex-col gap-5">
         <NavIcon iconUrl="/images/icons/yoga.svg" desc="Yoga icon" />
         <NavIcon iconUrl="/images/icons/swim.svg" desc="Swim icon" />

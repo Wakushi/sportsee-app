@@ -43,9 +43,9 @@ export default function HomePage() {
   const { user, activity, sessionAverage, performance } = aggregatedUserInfo
 
   return (
-    <div className="flex flex-col w-full justify-between px-[6.70rem] py-[4.25rem]">
+    <div className="flex flex-col w-full justify-between p-8">
       <WelcomeHeader username={user.userInfos.firstName} />
-      <div className="w-full flex justify-between gap-8">
+      <div className="w-full flex gap-8">
         <div className="flex flex-col gap-8">
           <section className="bg-light rounded">
             <ActivityBarChart sessions={activity.sessions} />

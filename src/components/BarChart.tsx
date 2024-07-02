@@ -16,7 +16,7 @@ export default function ActivityBarChart({
 }) {
   return (
     <BarChart
-      width={830}
+      width={530}
       height={280}
       data={sessions}
       margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
