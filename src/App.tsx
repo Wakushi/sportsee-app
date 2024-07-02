@@ -1,7 +1,12 @@
+import Layout from "./components/layout/Layout"
+import HomePage from "./pages/Home"
+
 export default function App() {
   return (
     <>
-      <h1>hello</h1>
+      <Layout>
+        <HomePage />
+      </Layout>
     </>
   )
 }
