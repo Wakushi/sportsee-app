@@ -17,7 +17,7 @@ export function useAggregatedUserInfo(userId: string) {
 
     setLoading(true)
 
-    async function aggregatedUserInfo(userId: string) {
+    async function getAggregatedUserInfo(userId: string) {
       try {
         const [user, activity, sessionAverage, performance] = await Promise.all(
           [
@@ -35,7 +35,7 @@ export function useAggregatedUserInfo(userId: string) {
       }
     }
 
-    aggregatedUserInfo(userId)
+    getAggregatedUserInfo(userId)
   }, [userId])
 
   return { data, loading, error }
