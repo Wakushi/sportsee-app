@@ -8,6 +8,8 @@ const PERFORMANCE_ENDPOINT = "/performance"
 
 const MOCK_USER_ID = "12"
 
+const CHART_SIZE = 280
+
 export {
   MOCK_USER_ID,
   BASE_URL,
@@ -15,4 +17,5 @@ export {
   ACTIVITY_ENDPOINT,
   SESSION_AVERAGE_ENDPOINT,
   PERFORMANCE_ENDPOINT,
+  CHART_SIZE,
 }

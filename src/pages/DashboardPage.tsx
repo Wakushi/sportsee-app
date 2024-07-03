@@ -1,8 +1,9 @@
 import { MOCK_USER_ID } from "../constants"
 import KeyDataCardList from "../components/KeyDataCardList"
-import ActivityBarChart from "../components/ActivityBarChart"
-import SessionAverageLineChart from "../components/SessionAverageLineChart"
 import { useAggregatedUserInfo } from "../services/useAggregatedUserInfo"
+import PerformanceRadarChart from "../components/charts/PerformanceRadarChart"
+import ActivityBarChart from "../components/charts/ActivityBarChart"
+import SessionAverageLineChart from "../components/charts/SessionAverageLineChart"
 
 export default function DashboardPage() {
   const { data, loading, error } = useAggregatedUserInfo(MOCK_USER_ID)
@@ -37,7 +38,7 @@ export default function DashboardPage() {
           </div>
           <div className="flex items-center justify-between gap-4">
             <SessionAverageLineChart sessions={sessionAverage.sessions} />
-            <SessionAverageLineChart sessions={sessionAverage.sessions} />
+            <PerformanceRadarChart performanceData={performance.data} />
             <SessionAverageLineChart sessions={sessionAverage.sessions} />
           </div>
         </div>

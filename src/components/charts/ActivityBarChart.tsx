@@ -8,7 +8,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts"
-import { ActivitySession } from "../types/activity"
+import { ActivitySession } from "../../types/activity"
 
 export default function ActivityBarChart({
   sessions,

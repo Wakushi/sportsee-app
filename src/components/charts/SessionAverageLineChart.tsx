@@ -6,7 +6,8 @@ import {
   XAxis,
   YAxis,
 } from "recharts"
-import { Session } from "../types/session-average"
+import { Session } from "../../types/session-average"
+import { CHART_SIZE } from "../../constants"
 
 export default function SessionAverageLineChart({
   sessions,
@@ -38,10 +39,7 @@ export default function SessionAverageLineChart({
       <h3 className="text-white opacity-60 absolute top-2 left-2 xl:top-8 xl:left-8">
         Durée moyenne des <br /> sessions
       </h3>
-      <ResponsiveContainer
-        width={window.innerWidth / 6}
-        height={window.innerWidth / 6}
-      >
+      <ResponsiveContainer width={CHART_SIZE} height={CHART_SIZE}>
         <LineChart
           data={formattedSessions}
           margin={{ right: 10, bottom: 20, left: 10 }}

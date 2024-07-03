@@ -4,12 +4,12 @@ export type Performance = {
 }
 
 export const PerformanceKind = {
-  1: "cardio",
-  2: "energy",
-  3: "endurance",
-  4: "strength",
-  5: "speed",
-  6: "intensity",
+  1: "Cardio",
+  2: "Énergie",
+  3: "Endurance",
+  4: "Force",
+  5: "Vitesse",
+  6: "Intensité",
 }
 
 export type PerformanceData = {
