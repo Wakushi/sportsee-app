@@ -5,7 +5,8 @@ import { SessionAverage } from "./session-average"
 export type User = {
   id: number
   userInfos: UserInfos
-  score: number
+  score?: number
+  todayScore?: number
   keyData: UserKeyData
 }
 

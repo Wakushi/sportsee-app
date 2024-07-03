@@ -4,6 +4,7 @@ import { useAggregatedUserInfo } from "../services/useAggregatedUserInfo"
 import PerformanceRadarChart from "../components/charts/PerformanceRadarChart"
 import ActivityBarChart from "../components/charts/ActivityBarChart"
 import SessionAverageLineChart from "../components/charts/SessionAverageLineChart"
+import ProgressBar from "../components/charts/ProgressBar"
 
 export default function DashboardPage() {
   const { data, loading, error } = useAggregatedUserInfo(MOCK_USER_ID)
@@ -29,9 +30,9 @@ export default function DashboardPage() {
   const { user, activity, sessionAverage, performance } = data
 
   return (
-    <div className="flex flex-col w-full p-8">
+    <div className="flex flex-col p-8 m-auto">
       <WelcomeHeader username={user.userInfos.firstName} />
-      <div className="w-full flex gap-8">
+      <div className="flex flex-col-reverse xl:flex-row gap-8">
         <div className="flex flex-col gap-8">
           <div className="bg-light rounded h-[300px]">
             <ActivityBarChart sessions={activity.sessions} />
@@ -39,7 +40,9 @@ export default function DashboardPage() {
           <div className="flex items-center justify-between gap-4">
             <SessionAverageLineChart sessions={sessionAverage.sessions} />
             <PerformanceRadarChart performanceData={performance.data} />
-            <SessionAverageLineChart sessions={sessionAverage.sessions} />
+            <ProgressBar
+              score={user.score ? user.score : user.todayScore ?? 0}
+            />
           </div>
         </div>
         <KeyDataCardList keyData={user.keyData} />

@@ -30,3 +30,11 @@ a {
 li {
   list-style: none;
 }
+
+.progress-message {
+  color: #74798c;
+  font-weight: 500;
+  left: 50%;
+  bottom: 50%;
+  transform: translate(-50%, 150%);
+}

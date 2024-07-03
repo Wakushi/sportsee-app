@@ -6,7 +6,7 @@ const ACTIVITY_ENDPOINT = "/activity"
 const SESSION_AVERAGE_ENDPOINT = "/average-sessions"
 const PERFORMANCE_ENDPOINT = "/performance"
 
-const MOCK_USER_ID = "12"
+const MOCK_USER_ID = "18"
 
 const CHART_SIZE = 280
 

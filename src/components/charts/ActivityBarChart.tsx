@@ -23,11 +23,9 @@ export default function ActivityBarChart({
   return (
     <ResponsiveContainer width="100%" height="100%">
       <BarChart
-        width={window.innerWidth - 450}
-        height={280}
         data={formattedSessions}
         margin={{ top: 20, bottom: 20 }}
-        barCategoryGap={60}
+        barCategoryGap={50}
       >
         <CartesianGrid strokeDasharray="2 3" />
         <XAxis dataKey="day" />
