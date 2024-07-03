@@ -1,11 +1,11 @@
 import Layout from "./components/layout/Layout"
-import HomePage from "./pages/Home"
+import DashboardPage from "./pages/DashboardPage"
 
 export default function App() {
   return (
     <>
       <Layout>
-        <HomePage />
+        <DashboardPage />
       </Layout>
     </>
   )
