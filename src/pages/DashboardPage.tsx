@@ -1,6 +1,6 @@
 import { MOCK_USER_ID } from "../constants"
-import KeyDataCardList from "../components/KeyDataCardList"
 import { useAggregatedUserInfo } from "../services/useAggregatedUserInfo"
+import KeyDataCardList from "../components/KeyDataCardList"
 import PerformanceRadarChart from "../components/charts/PerformanceRadarChart"
 import ActivityBarChart from "../components/charts/ActivityBarChart"
 import SessionAverageLineChart from "../components/charts/SessionAverageLineChart"
@@ -28,10 +28,11 @@ export default function DashboardPage() {
   }
 
   const { user, activity, sessionAverage, performance } = data
+  const { userInfos, score, todayScore, keyData } = user
 
   return (
     <div className="flex flex-col p-8 m-auto">
-      <WelcomeHeader username={user.userInfos.firstName} />
+      <WelcomeHeader username={userInfos.firstName} />
       <div className="flex flex-col-reverse xl:flex-row gap-8">
         <div className="flex flex-col gap-8">
           <div className="bg-light rounded h-[300px]">
@@ -40,12 +41,10 @@ export default function DashboardPage() {
           <div className="flex items-center justify-between gap-4">
             <SessionAverageLineChart sessions={sessionAverage.sessions} />
             <PerformanceRadarChart performanceData={performance.data} />
-            <ProgressBar
-              score={user.score ? user.score : user.todayScore ?? 0}
-            />
+            <ProgressBar score={score ? score : todayScore ?? 0} />
           </div>
         </div>
-        <KeyDataCardList keyData={user.keyData} />
+        <KeyDataCardList keyData={keyData} />
       </div>
     </div>
   )
