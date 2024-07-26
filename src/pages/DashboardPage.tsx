@@ -5,9 +5,13 @@ import PerformanceRadarChart from "../components/charts/PerformanceRadarChart"
 import ActivityBarChart from "../components/charts/ActivityBarChart"
 import SessionAverageLineChart from "../components/charts/SessionAverageLineChart"
 import ProgressBar from "../components/charts/ProgressBar"
+import { Database, MockDatabase } from "../services/database"
+
+const mockDatabase = MockDatabase.getInstance()
+const database = Database.getInstance()
 
 export default function DashboardPage() {
-  const { data, loading, error } = useAggregatedUserInfo(MOCK_USER_ID)
+  const { data, loading, error } = useAggregatedUserInfo(MOCK_USER_ID, database)
 
   if (loading) {
     return (

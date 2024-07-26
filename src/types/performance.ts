@@ -3,7 +3,7 @@ export type Performance = {
   data: PerformanceData[]
 }
 
-export const PerformanceKind = {
+export const PerformanceKindDictionary = {
   1: "Cardio",
   2: "Énergie",
   3: "Endurance",
@@ -14,5 +14,5 @@ export const PerformanceKind = {
 
 export type PerformanceData = {
   value: number
-  kind: keyof typeof PerformanceKind
+  kind: keyof typeof PerformanceKindDictionary
 }

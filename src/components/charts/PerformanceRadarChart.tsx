@@ -5,7 +5,10 @@ import {
   Radar,
   ResponsiveContainer,
 } from "recharts"
-import { PerformanceData, PerformanceKind } from "../../types/performance"
+import {
+  PerformanceData,
+  PerformanceKindDictionary,
+} from "../../types/performance"
 import { CHART_SIZE } from "../../constants"
 
 export default function PerformanceRadarChart({
@@ -16,7 +19,7 @@ export default function PerformanceRadarChart({
   const formattedPerformanceData = performanceData.map((data) => {
     return {
       ...data,
-      kind: PerformanceKind[data.kind],
+      kind: PerformanceKindDictionary[data.kind],
     }
   })
 

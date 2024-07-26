@@ -1,13 +1,8 @@
 import { useEffect, useState } from "react"
 import { AggregatedUserInfo } from "../types/user"
-import {
-  getUserActivity,
-  getUserById,
-  getUserPerformance,
-  getUserSessionAverage,
-} from "./user-service"
+import { IDatabase } from "./database.interface"
 
-export function useAggregatedUserInfo(userId: string) {
+export function useAggregatedUserInfo(userId: string, database: IDatabase) {
   const [data, setData] = useState<AggregatedUserInfo>()
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<Error>()
@@ -21,10 +16,10 @@ export function useAggregatedUserInfo(userId: string) {
       try {
         const [user, activity, sessionAverage, performance] = await Promise.all(
           [
-            getUserById(userId),
-            getUserActivity(userId),
-            getUserSessionAverage(userId),
-            getUserPerformance(userId),
+            database.getUserById(userId),
+            database.getUserActivity(userId),
+            database.getUserSessionAverage(userId),
+            database.getUserPerformance(userId),
           ]
         )
         setData({ user, activity, sessionAverage, performance })
