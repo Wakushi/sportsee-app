@@ -1,8 +1,19 @@
 import { useEffect, useState } from "react"
 import { AggregatedUserInfo } from "../types/user"
-import { IDatabase } from "./database.interface"
 
-export function useAggregatedUserInfo(userId: string, database: IDatabase) {
+const databaseMap = {
+  mock: () =>
+    import("./database-mock.ts").then((module) =>
+      module.MockDatabase.getInstance()
+    ),
+  database: () =>
+    import("./database.ts").then((module) => module.Database.getInstance()),
+}
+
+export function useAggregatedUserInfo(
+  userId: string,
+  dbName: "mock" | "database"
+) {
   const [data, setData] = useState<AggregatedUserInfo>()
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<Error>()
@@ -13,6 +24,7 @@ export function useAggregatedUserInfo(userId: string, database: IDatabase) {
     setLoading(true)
 
     async function getAggregatedUserInfo(userId: string) {
+      const database = await databaseMap[dbName]()
       try {
         const [user, activity, sessionAverage, performance] = await Promise.all(
           [
