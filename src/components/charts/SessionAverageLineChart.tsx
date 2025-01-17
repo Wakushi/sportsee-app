@@ -1,6 +1,7 @@
 import {
   Line,
   LineChart,
+  Rectangle,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -36,7 +37,7 @@ export default function SessionAverageLineChart({
 
   return (
     <div className="relative bg-brand rounded flex-1">
-      <h3 className="text-white opacity-60 absolute top-2 left-2 xl:top-8 xl:left-8">
+      <h3 className="text-white opacity-60 absolute z-[9] top-2 left-2 xl:top-8 xl:left-8">
         Durée moyenne des <br /> sessions
       </h3>
       <ResponsiveContainer width={CHART_SIZE} height={CHART_SIZE}>
@@ -45,6 +46,7 @@ export default function SessionAverageLineChart({
           margin={{ right: 10, bottom: 20, left: 10 }}
         >
           <XAxis
+            className="relative z-[1]"
             dataKey="day"
             stroke="rgba(255, 255, 255, 0.6)"
             axisLine={false}
@@ -58,7 +60,7 @@ export default function SessionAverageLineChart({
             domain={[0, "dataMax + 60"]}
             hide={true}
           />
-          <Tooltip content={<CustomTooltip />} cursor={false} />
+          <Tooltip content={<CustomTooltip />} cursor={<CustomCursor />} />
           <Line
             type="monotone"
             dataKey="sessionLength"
@@ -95,4 +97,19 @@ const CustomTooltip = ({
   }
 
   return null
+}
+
+const CustomCursor = ({ points, width, height }: any) => {
+  const { x, y } = points[0]
+  return (
+    <Rectangle
+      fill="#e60001"
+      stroke="#e60001"
+      className="opacity-70"
+      x={x}
+      y={y}
+      width={width}
+      height={280}
+    />
+  )
 }
