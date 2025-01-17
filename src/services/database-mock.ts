@@ -9,11 +9,31 @@ import {
   USER_MAIN_DATA,
   USER_PERFORMANCE,
 } from "../data/data"
+import { CustomHttpError } from "../types/errors"
+import { validatePerformance } from "./helper"
+
+async function mockFetchHandler<T>(
+  dataSource: Array<T & { id?: number; userId?: number }>,
+  userId: string,
+  errorContext: string
+): Promise<T> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const item = dataSource.find(
+        (item) => (item.id ?? item.userId) === +userId
+      )
+
+      if (item) {
+        resolve(item)
+      } else {
+        throw new CustomHttpError(`${errorContext} not found`, 404)
+      }
+    }, 1000)
+  })
+}
 
 export class MockDatabase implements IDatabase {
   private static _instance: MockDatabase
-
-  private SIMULATED_DELAY = 1000
 
   private constructor() {}
 
@@ -25,58 +45,27 @@ export class MockDatabase implements IDatabase {
   }
 
   async getUserById(userId: string): Promise<User> {
-    return new Promise(async (resolve, reject) => {
-      setTimeout(() => {
-        const user = USER_MAIN_DATA.find((u) => u.id === +userId)
-        if (user) {
-          resolve(user)
-        } else {
-          reject(new Error("User not found"))
-        }
-      }, this.SIMULATED_DELAY)
-    })
+    return mockFetchHandler(USER_MAIN_DATA, userId, "User")
   }
 
   async getUserActivity(userId: string): Promise<Activity> {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const userActivity = USER_ACTIVITY.find((u) => u.userId === +userId)
-        if (userActivity) {
-          resolve(userActivity)
-        } else {
-          reject(new Error("User activity not found"))
-        }
-      }, this.SIMULATED_DELAY)
-    })
+    return mockFetchHandler(USER_ACTIVITY, userId, "User activity")
   }
 
   async getUserSessionAverage(userId: string): Promise<SessionAverage> {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const userSessionAverage = USER_AVERAGE_SESSIONS.find(
-          (u) => u.userId === +userId
-        )
-        if (userSessionAverage) {
-          resolve(userSessionAverage)
-        } else {
-          reject(new Error("User not found"))
-        }
-      }, this.SIMULATED_DELAY)
-    })
+    return mockFetchHandler(
+      USER_AVERAGE_SESSIONS,
+      userId,
+      "User session average"
+    )
   }
 
   async getUserPerformance(userId: string): Promise<Performance> {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const userPerformance = USER_PERFORMANCE.find(
-          (u) => u.userId === +userId
-        )
-        if (userPerformance) {
-          resolve(userPerformance as Performance)
-        } else {
-          reject(new Error("User not found"))
-        }
-      }, this.SIMULATED_DELAY)
-    })
+    const performance = await mockFetchHandler(
+      USER_PERFORMANCE,
+      userId,
+      "User performance"
+    )
+    return validatePerformance(performance)
   }
 }

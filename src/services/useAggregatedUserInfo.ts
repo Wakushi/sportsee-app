@@ -12,7 +12,7 @@ const databaseMap = {
 
 export function useAggregatedUserInfo(
   userId: string,
-  dbName: "mock" | "database"
+  dbName: "mock" | "database" = "database"
 ) {
   const [data, setData] = useState<AggregatedUserInfo>()
   const [loading, setLoading] = useState<boolean>(true)
@@ -25,6 +25,7 @@ export function useAggregatedUserInfo(
 
     async function getAggregatedUserInfo(userId: string) {
       const database = await databaseMap[dbName]()
+
       try {
         const [user, activity, sessionAverage, performance] = await Promise.all(
           [

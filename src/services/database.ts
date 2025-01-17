@@ -4,8 +4,13 @@ import {
   SESSION_AVERAGE_ENDPOINT,
   USER_BASE_ENDPOINT,
 } from "../constants"
+import { Activity } from "../types/activity"
+import { Performance } from "../types/performance"
+import { SessionAverage } from "../types/session-average"
+import { User } from "../types/user"
 
 import { IDatabase } from "./database.interface"
+import { fetchHandler, validatePerformance } from "./helper"
 
 export class Database implements IDatabase {
   private static _instance: Database
@@ -19,89 +24,30 @@ export class Database implements IDatabase {
     return Database._instance
   }
 
-  async getUserById(userId: string) {
-    try {
-      const response = await fetch(`${USER_BASE_ENDPOINT}/${userId}`)
-      if (!response.ok) {
-        if (response.status === 404) {
-          throw new Error("User not found (404)")
-        } else if (response.status === 500) {
-          throw new Error("Internal Server Error (500)")
-        } else {
-          throw new Error(`Unexpected error: ${response.statusText}`)
-        }
-      }
-      const { data } = await response.json()
-      return data
-    } catch (error) {
-      console.error("Error fetching user:", error)
-      throw error
-    }
+  async getUserById(userId: string): Promise<User> {
+    return fetchHandler(`${USER_BASE_ENDPOINT}/${userId}`, "User")
   }
 
-  async getUserActivity(userId: string) {
-    try {
-      const response = await fetch(
-        `${USER_BASE_ENDPOINT}/${userId}${ACTIVITY_ENDPOINT}`
-      )
-      if (!response.ok) {
-        if (response.status === 404) {
-          throw new Error("User activity not found (404)")
-        } else if (response.status === 500) {
-          throw new Error("Internal Server Error (500)")
-        } else {
-          throw new Error(`Unexpected error: ${response.statusText}`)
-        }
-      }
-      const { data } = await response.json()
-      return data
-    } catch (error) {
-      console.error("Error fetching user activity:", error)
-      throw error
-    }
+  async getUserActivity(userId: string): Promise<Activity> {
+    return fetchHandler(
+      `${USER_BASE_ENDPOINT}/${userId}${ACTIVITY_ENDPOINT}`,
+      "User activity"
+    )
   }
 
-  async getUserSessionAverage(userId: string) {
-    try {
-      const response = await fetch(
-        `${USER_BASE_ENDPOINT}/${userId}${SESSION_AVERAGE_ENDPOINT}`
-      )
-      if (!response.ok) {
-        if (response.status === 404) {
-          throw new Error("User average session not found (404)")
-        } else if (response.status === 500) {
-          throw new Error("Internal Server Error (500)")
-        } else {
-          throw new Error(`Unexpected error: ${response.statusText}`)
-        }
-      }
-      const { data } = await response.json()
-      return data
-    } catch (error) {
-      console.error("Error fetching user session average:", error)
-      throw error
-    }
+  async getUserSessionAverage(userId: string): Promise<SessionAverage> {
+    return fetchHandler(
+      `${USER_BASE_ENDPOINT}/${userId}${SESSION_AVERAGE_ENDPOINT}`,
+      "User session average"
+    )
   }
 
-  async getUserPerformance(userId: string) {
-    try {
-      const response = await fetch(
-        `${USER_BASE_ENDPOINT}/${userId}${PERFORMANCE_ENDPOINT}`
-      )
-      if (!response.ok) {
-        if (response.status === 404) {
-          throw new Error("User performance not found (404)")
-        } else if (response.status === 500) {
-          throw new Error("Internal Server Error (500)")
-        } else {
-          throw new Error(`Unexpected error: ${response.statusText}`)
-        }
-      }
-      const { data } = await response.json()
-      return data
-    } catch (error) {
-      console.error("Error fetching user performance:", error)
-      throw error
-    }
+  async getUserPerformance(userId: string): Promise<Performance> {
+    const response = await fetchHandler(
+      `${USER_BASE_ENDPOINT}/${userId}${PERFORMANCE_ENDPOINT}`,
+      "User performance"
+    )
+
+    return validatePerformance(response)
   }
 }

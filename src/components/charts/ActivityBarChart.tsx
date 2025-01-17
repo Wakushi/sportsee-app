@@ -48,7 +48,7 @@ const CustomTooltip = ({
   active,
   payload,
 }: {
-  active?: any
+  active?: boolean
   payload?: any
   label?: any
 }) => {

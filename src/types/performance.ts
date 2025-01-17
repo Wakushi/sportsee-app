@@ -10,9 +10,11 @@ export const PerformanceKindDictionary = {
   4: "Force",
   5: "Vitesse",
   6: "Intensité",
-}
+} as const
+
+export type PerformanceKind = keyof typeof PerformanceKindDictionary
 
 export type PerformanceData = {
   value: number
-  kind: keyof typeof PerformanceKindDictionary
+  kind: PerformanceKind
 }

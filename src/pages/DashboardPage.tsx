@@ -1,13 +1,15 @@
-import { MOCK_USER_ID } from "../constants"
 import { useAggregatedUserInfo } from "../services/useAggregatedUserInfo"
 import KeyDataCardList from "../components/KeyDataCardList"
 import PerformanceRadarChart from "../components/charts/PerformanceRadarChart"
 import ActivityBarChart from "../components/charts/ActivityBarChart"
 import SessionAverageLineChart from "../components/charts/SessionAverageLineChart"
 import ProgressBar from "../components/charts/ProgressBar"
+import { MOCK_USER_ID } from "../constants"
 
 export default function DashboardPage() {
-  const { data, loading, error } = useAggregatedUserInfo(MOCK_USER_ID, "mock")
+  const userId = new URLSearchParams(window.location.search).get("userId")
+
+  const { data, loading, error } = useAggregatedUserInfo(userId ?? MOCK_USER_ID)
 
   if (loading) {
     return (
